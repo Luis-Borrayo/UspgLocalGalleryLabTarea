@@ -69,4 +69,13 @@ public class S3Storage {
         URL url = S3.generatePresignedUrl(r);
         return url.toString();
     }
+
+    public boolean delete(String key) {
+        try {
+            S3.deleteObject(AwsConfig.BUCKET, key);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

@@ -40,7 +40,7 @@ public class ListServlet extends HttpServlet {
 
         if ("s3".equalsIgnoreCase(target)) {
             String prefix = "imagenes/";
-            List<String> keys = s3.listKeysByPrefixAndExt(prefix);
+            List<String> keys = s3.listKeysByPrefixAndExt(prefix, ".png", ".jpg", ".jpeg", ".gif", ".webp");
             List<String> urls = keys.stream()
                     .map(k -> s3.presignedGetUrl(k, 3600))
                     .collect(Collectors.toList());

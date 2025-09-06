@@ -5,5 +5,5 @@ public class AwsConfig {
     public static final String AccesSecretKey = "";
     public static final String Region = "";
     public static final String BUCKET = "";
-    public static final long PRESIGNED_MS = 5*60*100;
+    public static final long PRESIGNED_MS = 5*60*1000; // 5 minutos en milisegundos
 }

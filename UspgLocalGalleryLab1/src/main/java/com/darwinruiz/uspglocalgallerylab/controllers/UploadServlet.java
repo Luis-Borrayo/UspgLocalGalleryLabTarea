@@ -3,6 +3,7 @@ package com.darwinruiz.uspglocalgallerylab.controllers;
 import com.darwinruiz.uspglocalgallerylab.repositories.LocalFileRepository;
 import com.darwinruiz.uspglocalgallerylab.services.ImageService;
 import com.darwinruiz.uspglocalgallerylab.services.S3Storage;
+import com.darwinruiz.uspglocalgallerylab.util.ImageValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -47,6 +48,12 @@ public class UploadServlet extends HttpServlet {
         if (prefix == null) prefix = "";
 
         if ("s3".equalsIgnoreCase(target)) {
+            // Validar antes de subir
+            if (!ImageValidator.isValid(part, fileName)) {
+                resp.sendError(400, "Archivo no válido: verifique formato, tamaño (≤3MB) y tipo MIME");
+                return;
+            }
+            
             java.time.LocalDateTime now = java.time.LocalDateTime.now();
             String datePath = String.format("imagenes/%04d/%02d/%02d/", now.getYear(), now.getMonthValue(), now.getDayOfMonth());
             String basename = fileName.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
